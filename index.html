@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор распределения финансовой прибыли</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .category {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            display: inline-block;
+            width: 250px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #result h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        #result p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        #result strong {
+            color: #007bff;
+        }
+
+        /* Иконки для категорий */
+        .category::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            background-size: cover;
+        }
+
+        .category:nth-child(1)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/tax.png');
+        }
+
+        .category:nth-child(2)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/savings.png');
+        }
+
+        .category:nth-child(3)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/expenses.png');
+        }
+
+        .category:nth-child(4)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/piggy-bank.png');
+        }
+
+        .category:nth-child(5)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/investment-portfolio.png');
+        }
+
+        .category:nth-child(6)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/charity.png');
+        }
+
+        .category:nth-child(7)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/shopping-cart.png');
+        }
+
+        .category:nth-child(8)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/education.png');
+        }
+
+        .category:nth-child(9)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/goal.png');
+        }
+
+        .category:nth-child(10)::before {
+            background-image: url('https://img.icons8.com/color/48/000000/calendar.png');
+        }
+
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            label {
+                width: 200px;
+                font-size: 14px;
+            }
+
+            input {
+                width: 80px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            #result h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Калькулятор распределения финансовой прибыли</h1>
+
+    <form id="calculatorForm">
+        <div class="category">
+            <label for="income">Ваш доход:</label>
+            <input type="number" id="income" step="0.01" required>
+        </div>
+        <div class="category">
+            <label for="taxes">1. Оплата налогов (% от дохода):</label>
+            <input type="number" id="taxes" step="0.01" value="13" required>
+        </div>
+        <div class="category">
+            <label for="emergencyFund">2. Финансовая подушка (% от дохода):</label>
+            <input type="number" id="emergencyFund" step="0.01" value="10" required>
+        </div>
+        <div class="category">
+            <label for="mandatoryExpenses">3. Обязательные расходы (% от дохода):</label>
+            <input type="number" id="mandatoryExpenses" step="0.01" value="20" required>
+        </div>
+        <div class="category">
+            <label for="savings">4. Сбережения (% от дохода):</label>
+            <input type="number" id="savings" step="0.01" value="10" required>
+        </div>
+        <div class="category">
+            <label for="investments">5. Инвестиции (% от дохода):</label>
+            <input type="number" id="investments" step="0.01" value="10" required>
+        </div>
+        <div class="category">
+            <label for="donations">6. Пожертвования (% от дохода):</label>
+            <input type="number" id="donations" step="0.01" value="2" required>
+        </div>
+        <div class="category">
+            <label for="personalExpenses">7. Личные расходы (% от дохода):</label>
+            <input type="number" id="personalExpenses" step="0.01" value="10" required>
+        </div>
+        <div class="category">
+            <label for="education">8. Образование (% от дохода):</label>
+            <input type="number" id="education" step="0.01" value="5" required>
+        </div>
+        <div class="category">
+            <label for="futureGoals">9. Планирование будущих целей (% от дохода):</label>
+            <input type="number" id="futureGoals" step="0.01" value="5" required>
+        </div>
+        <div class="category">
+            <label for="reviewBudget">10. Регулярный пересмотр бюджета (% от дохода):</label>
+            <input type="number" id="reviewBudget" step="0.01" value="2" required>
+        </div>
+        <button type="button" onclick="calculateDistribution()">Рассчитать распределение</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function calculateDistribution() {
+    const income = parseFloat(document.getElementById('income').value);
+    if (isNaN(income) || income <= 0) {
+        alert("Пожалуйста, введите положительный доход.");
+        return;
+    }
+
+    const taxes = income * (parseFloat(document.getElementById('taxes').value) / 100);
+    const emergencyFund = income * (parseFloat(document.getElementById('emergencyFund').value) / 100);
+    const mandatoryExpenses = income * (parseFloat(document.getElementById('mandatoryExpenses').value) / 100);
+    const savings = income * (parseFloat(document.getElementById('savings').value) / 100);
+    const investments = income * (parseFloat(document.getElementById('investments').value) / 100);
+    const donations = income * (parseFloat(document.getElementById('donations').value) / 100);
+    const personalExpenses = income * (parseFloat(document.getElementById('personalExpenses').value) / 100);
+    const education = income * (parseFloat(document.getElementById('education').value) / 100);
+    const futureGoals = income * (parseFloat(document.getElementById('futureGoals').value) / 100);
+    const reviewBudget = income * (parseFloat(document.getElementById('reviewBudget').value) / 100);
+
+    const totalExpenses = taxes + emergencyFund + mandatoryExpenses + savings + investments +
+                          donations + personalExpenses + education + futureGoals + reviewBudget;
+
+    if (totalExpenses > income) {
+        alert("Сумма расходов превышает доход. Пожалуйста, скорректируйте значения.");
+        return;
+    }
+
+    let result = "<h2>Распределение финансовой прибыли:</h2>";
+    result += `<p>1. Оплата налогов: <strong>${taxes.toFixed(2)} ₽</strong></p>`;
+    result += `<p>2. Финансовая подушка: <strong>${emergencyFund.toFixed(2)} ₽</strong></p>`;
+    result += `<p>3. Обязательные расходы: <strong>${mandatoryExpenses.toFixed(2)} ₽</strong></p>`;
+    result += `<p>4. Сбережения: <strong>${savings.toFixed(2)} ₽</strong></p>`;
+    result += `<p>5. Инвестиции: <strong>${investments.toFixed(2)} ₽</strong></p>`;
+    result += `<p>6. Пожертвования: <strong>${donations.toFixed(2)} ₽</strong></p>`;
+    result += `<p>7. Личные расходы: <strong>${personalExpenses.toFixed(2)} ₽</strong></p>`;
+    result += `<p>8. Образование: <strong>${education.toFixed(2)} ₽</strong></p>`;
+    result += `<p>9. Планирование будущих целей: <strong>${futureGoals.toFixed(2)} ₽</strong></p>`;
+    result += `<p>10. Регулярный пересмотр бюджета: <strong>${reviewBudget.toFixed(2)} ₽</strong></p>`;
+    result += `<p><strong>Итого расходов: ${totalExpenses.toFixed(2)} ₽</strong></p>`;
+    result += `<p><strong>Остаток: ${(income - totalExpenses).toFixed(2)} ₽</strong></p>`;
+
+    document.getElementById('result').innerHTML = result;
+}
+</script>
+
+</body>
+</html>
